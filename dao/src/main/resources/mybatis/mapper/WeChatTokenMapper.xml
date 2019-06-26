@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhyx.halfroom.dao.WeChatTokenDao">
+    <select id="select_we_chat_token_by_type" resultType="com.jhyx.halfroom.bean.WeChatToken">
+        select *
+        from wechat_token
+        where type = #{type.index}
+        limit 1
+    </select>
+
+    <update id="update_we_chat_token">
+        update wechat_token
+        <set>
+            <if test="content != null and content != '' ">
+                content = #{content},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <insert id="insert_into_we_chat_token">
+        insert into wechat_token(content, type)
+        values (#{content}, #{type})
+    </insert>
+</mapper>

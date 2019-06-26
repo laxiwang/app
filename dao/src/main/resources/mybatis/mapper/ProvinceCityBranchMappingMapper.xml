@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhyx.halfroom.dao.ProvinceCityBranchMappingDao">
+    <select id="select_province_city_branch_mapping_by_province_and_city" resultType="com.jhyx.halfroom.bean.ProvinceCityBranchMapping">
+        select * from province_city_branch_mapping where province = #{province} and city = #{city}
+    </select>
+</mapper>

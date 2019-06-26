@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhyx.halfroom.dao.CorrelationMessageDao">
+    <insert id="insert_into_correlation_message">
+        insert into correlation_message(correlation_id,
+                                        order_no,
+                                        create_time,
+                                        update_time)
+        values (#{correlationId}, #{orderNo}, #{createTime}, #{updateTime})
+    </insert>
+
+    <select id="select_correlation_message_by_correlation_id" resultType="com.jhyx.halfroom.bean.CorrelationMessage">
+        select *
+        from correlation_message
+        where correlation_id = #{correlationId}
+    </select>
+
+    <update id="update_correlation_message">
+        update correlation_message
+        <set>
+            <if test="orderNo != null and orderNo != '' ">
+                order_no = #{orderNo},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="updateTime != null and updateTime != '' ">
+                update_time = #{updateTime}
+            </if>
+        </set>
+        where correlation_id = #{correlationId}
+    </update>
+</mapper>

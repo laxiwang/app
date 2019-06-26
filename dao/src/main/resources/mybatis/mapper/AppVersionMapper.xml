@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhyx.halfroom.dao.AppVersionDao">
+    <select id="select_app_version_by_os" resultType="com.jhyx.halfroom.bean.AppVersion">
+        select *
+        from app_version
+        where os = #{os}
+    </select>
+</mapper>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhyx.halfroom.dao.UserFeedBackDao">
+    <insert id="insert_into_user_feed_back">
+        insert into user_feed_back(user_id, content, create_time, update_time)
+        values (#{userId}, #{content}, #{createTime}, #{updateTime})
+    </insert>
+</mapper>

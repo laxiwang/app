@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhyx.halfroom.dao.UserDao">
+    <select id="select_user_count_by_register_introducer" resultType="Long">
+        select count(*)
+        from user
+        where register_introducer = #{ambassadorId}
+    </select>
+
+    <select id="select_user_by_phone" resultType="com.jhyx.halfroom.bean.User">
+        select *
+        from user
+        where phone = #{phone}
+          and `status` = 0
+    </select>
+
+    <select id="select_user_by_id" resultType="com.jhyx.halfroom.bean.User">
+        select *
+        from user
+        where id = #{id}
+          and `status` = 0
+    </select>
+
+    <select id="select_user_by_ids" resultType="com.jhyx.halfroom.bean.User">
+        select *
+        from user
+        where `status` = 0 and id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+    <insert id="insert_into_user" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+        insert into user(`name`,
+                         `phone`,
+                         `gender`,
+                         `head_image`,
+                         `birthday`,
+                         `grade`,
+                         `country`,
+                         `province`,
+                         `city`,
+                         `register_entry`,
+                         `register_introducer`,
+                         `branchsaler`,
+                         `status`,
+                         `role`)
+        values (#{name}, #{phone}, #{gender}, #{headImage}, #{birthday}, #{grade}, #{country}, #{province}, #{city},
+                #{registerEntry}, #{registerIntroducer}, #{branchsaler}, #{status}, #{role})
+    </insert>
+
+    <update id="update_user">
+        update user
+        set `mapping_new_add`     = #{mappingNewAdd},
+            `favourite_subject`   = #{favouriteSubject},
+            `name`                = #{name},
+            `phone`               = #{phone},
+            `gender`              = #{gender},
+            `head_image`          = #{headImage},
+            `birthday`            = #{birthday},
+            `grade`               = #{grade},
+            `country`             = #{country},
+            `province`            = #{province},
+            `city`                = #{city},
+            `register_entry`      = #{registerEntry},
+            `register_introducer` = #{registerIntroducer},
+            `branchsaler`         = #{branchsaler},
+            `status`              = #{status},
+            `role`                = #{role}
+        where id = #{id}
+    </update>
+
+    <select id="select_user_count" resultType="Long">
+        select count(*)
+        from user
+        where `status` = 0;
+    </select>
+</mapper>

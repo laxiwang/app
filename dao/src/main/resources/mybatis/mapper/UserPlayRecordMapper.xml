@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhyx.halfroom.dao.UserPlayRecordDao">
+    <insert id="insert_into_user_play_record">
+        insert into user_play_record(user_id, book_id, chapter_id, part_id, play_count, play_time_end)
+        values (#{userId}, #{bookId}, #{chapterId}, #{partId}, #{playCount}, #{playTimeEnd})
+    </insert>
+
+    <select id="select_user_play_record_by_user_id_and_book_id_and_chapter_id_part_id" resultType="com.jhyx.halfroom.bean.UserPlayRecord">
+        select *
+        from user_play_record
+        where user_id = #{userId}
+          and book_id = #{bookId}
+          and chapter_id = #{bookChapterId}
+          and part_id = #{bookChapterPartId}
+    </select>
+
+    <update id="update_user_play_record">
+        update user_play_record
+        set play_count    = #{playCount},
+            play_time_end = #{playTimeEnd}
+        where user_id = #{userId}
+          and book_id = #{bookId}
+          and chapter_id = #{chapterId}
+          and part_id = #{partId}
+    </update>
+
+    <select id="select_user_play_record_by_user_id" resultType="com.jhyx.halfroom.bean.UserPlayRecord">
+        select *
+        from user_play_record
+        where user_id = #{userId}
+        order by update_time desc
+    </select>
+
+    <select id="select_user_play_record_by_book_id_and_book_chapter_id" resultType="com.jhyx.halfroom.vo.app.UserPlayRecordCountVo">
+        select user_id userId, book_id bookId, chapter_id bookChapterId, part_id bookChapterPartId, play_count playCount, play_time_end playTimeEnd
+        from user_play_record
+        <where>
+            <if test="bookId != null">
+                book_id = #{bookId}
+            </if>
+            <if test="bookChapterId != null">
+                and chapter_id = #{bookChapterId}
+            </if>
+        </where>
+    </select>
+
+    <select id="select_user_play_record_play_count_by_book_id_and_chapter_id_part_id" resultType="Long">
+        select sum(play_count)
+        from user_play_record
+        <where>
+            <if test="bookId != null">
+                book_id = #{bookId}
+            </if>
+            <if test="bookChapterId != null">
+                and chapter_id = #{bookChapterId}
+            </if>
+            <if test="bookChapterPartId != null">
+                and part_id = #{bookChapterPartId}
+            </if>
+        </where>
+    </select>
+</mapper>

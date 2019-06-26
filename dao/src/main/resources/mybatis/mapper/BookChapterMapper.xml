@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhyx.halfroom.dao.BookChapterDao">
+    <select id="select_book_chapter_by_book_ids" resultType="com.jhyx.halfroom.bean.BookChapter">
+        select *
+        from book_chapter
+        where `status` = 0 and `book_id` in
+        <foreach collection="bookIds" item="bookId" separator="," close=")" open="(">
+            #{bookId}
+        </foreach>
+    </select>
+</mapper>

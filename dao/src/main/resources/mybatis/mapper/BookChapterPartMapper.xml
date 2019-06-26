@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhyx.halfroom.dao.BookChapterPartDao">
+    <select id="select_book_chapter_part_by_state_and_book_id_and_chapter_id" resultType="com.jhyx.halfroom.bean.BookChapterPart">
+        select *
+        from book_chapter_part
+        <where>
+            `status` = 0 and state = #{state}
+            <if test="bookId != null">
+                and book_id = #{bookId}
+            </if>
+            <if test="chapterId != null">
+                and book_chapter_id = #{chapterId}
+            </if>
+        </where>
+        order by book_id, book_chapter_id, book_chapter_part_id
+        <if test="offset != null and offset >= 0 and limit != null and limit >= 0">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="select_book_chapter_part_by_book_id" resultType="com.jhyx.halfroom.bean.BookChapterPart">
+        select *
+        from book_chapter_part
+        where `status` = 0 and book_id in
+        <foreach collection="ids" item="id" close=")" open="(" separator=",">
+            #{id}
+        </foreach>
+        order by book_id, book_chapter_id, book_chapter_part_id
+    </select>
+
+    <select id="select_book_chapter_part_by_book_id_and_chapter_id" resultType="Integer">
+        select count(*)
+        from book_chapter_part
+        <where>
+            `status` = 0
+            <if test="bookId != null">
+                and book_id = #{bookId}
+            </if>
+            <if test="chapterId != null">
+                and book_chapter_id = #{chapterId}
+            </if>
+        </where>
+    </select>
+
+    <select id="select_book_chapter_part_by_book_id_and_book_chapter_id_book_chapter_part"
+            resultType="com.jhyx.halfroom.bean.BookChapterPart">
+        select *
+        from book_chapter_part
+        where book_id = #{bookId}
+          and book_chapter_id = #{chapterId}
+          and book_chapter_part_id = #{partId}
+          and `status` = 0
+    </select>
+
+    <select id="select_book_chapter_part_by_book_id_and_book_chapter_id_and_type" resultType="com.jhyx.halfroom.bean.BookChapterPart">
+        select *
+        from book_chapter_part
+        <where>
+            `status` = 0
+            <if test="bookId != null">
+                and book_id = #{bookId}
+            </if>
+            <if test="chapterId != null">
+                and book_chapter_id = #{chapterId}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+        </where>
+        order by book_id, book_chapter_id, book_chapter_part_id
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+</mapper>

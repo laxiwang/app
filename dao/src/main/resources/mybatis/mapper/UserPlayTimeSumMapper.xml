@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhyx.halfroom.dao.UserPlayTimeSumDao">
+    <select id="select_user_play_time_sum_by_user_id_and_book_id_and_book_chapter_id_and_book_chapter_part_id"
+            resultType="com.jhyx.halfroom.bean.UserPlayTimeSum">
+        select *
+        from user_play_time_sum
+        <where>
+            <if test="userId != null">
+                user_id = #{userId}
+            </if>
+            <if test="bookId != null">
+                and book_id = #{bookId}
+            </if>
+            <if test="bookChapterId != null">
+                and book_chapter_id = #{bookChapterId}
+            </if>
+            <if test="bookChapterPartId != null">
+                and book_chapter_part_id = #{bookChapterPartId}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insert_into_user_play_time_sum">
+        insert into user_play_time_sum(user_id, book_id, book_chapter_id, book_chapter_part_id, play_sum)
+        values (#{userId}, #{bookId}, #{bookChapterId}, #{bookChapterPartId}, #{playSum})
+    </insert>
+
+    <update id="update_user_play_time_sum">
+        update user_play_time_sum
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="bookId != null">
+                book_id = #{bookId},
+            </if>
+            <if test="bookChapterId != null">
+                book_chapter_id = #{bookChapterId},
+            </if>
+            <if test="bookChapterPartId != null">
+                book_chapter_part_id = #{bookChapterPartId},
+            </if>
+            <if test="playSum != null">
+                play_sum = #{playSum},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="select_user_play_time_sum" resultType="com.jhyx.halfroom.vo.app.UserPlayTimeSumVo">
+        SELECT play.user_id userId, sum(play_sum) playTime
+        FROM user_play_time_sum play
+        GROUP BY play.user_id
+        ORDER BY playTime desc;
+    </select>
+</mapper>

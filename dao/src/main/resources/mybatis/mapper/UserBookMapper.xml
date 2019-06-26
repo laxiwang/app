@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhyx.halfroom.dao.UserBookDao">
+    <insert id="batch_insert_into_user_book">
+        insert into user_book(user_id, book_id, type, start_time, end_time) values
+        <foreach collection="userBooks" item="userBook" separator=",">
+            (#{userBook.userId}, #{userBook.bookId}, #{userBook.type}, #{userBook.startTime}, #{userBook.endTime})
+        </foreach>
+    </insert>
+
+    <insert id="insert_into_user_book" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into user_book(user_id, book_id, type, start_time, end_time)
+        values (#{userId}, #{bookId}, #{type}, #{startTime}, #{endTime})
+    </insert>
+
+    <select id="select_user_book_by_user_id_and_book_id" resultType="com.jhyx.halfroom.bean.UserBook">
+        select * from user_book
+        <where>
+            <if test="userId != null">
+                user_id = #{userId}
+            </if>
+            <if test="bookId != null">
+                and book_id = #{bookId}
+            </if>
+        </where>
+    </select>
+
+    <select id="select_user_book_by_user_id" resultType="com.jhyx.halfroom.bean.UserBook">
+        select * from user_book
+        <where>
+            <if test="userId != null">
+                user_id = #{userId}
+            </if>
+        </where>
+    </select>
+
+    <select id="select_user_book_by_user_id_and_type" resultType="com.jhyx.halfroom.bean.UserBook">
+        select *
+        from user_book
+        where user_id = #{userId}
+          and type = #{type}
+    </select>
+
+    <update id="update_user_book">
+        update user_book
+        set user_id    = #{userId},
+            book_id    = #{bookId},
+            type       = #{type},
+            start_time = #{startTime},
+            end_time   = #{endTime}
+        where id = #{id}
+    </update>
+</mapper>

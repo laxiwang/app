@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhyx.halfroom.dao.BookChapterPartCommentPraiseDao">
+    <select id="select_book_chapter_part_comment_praise_by_user_id_and_comment_id" resultType="com.jhyx.halfroom.bean.BookChapterPartCommentPraise">
+        select *
+        from book_chapter_part_comment_praise
+        where book_chapter_part_comment_id = #{commentId} and user_id = #{userId};
+    </select>
+
+    <insert id="insert_into_book_chapter_part_comment_praise">
+        insert into book_chapter_part_comment_praise(book_chapter_part_comment_id, user_id)
+        values(#{bookChapterPartCommentId}, #{userId})
+    </insert>
+
+    <delete id="delete_book_chapter_part_comment_praise_by_comment_id_and_user_id">
+        delete from book_chapter_part_comment_praise
+        where book_chapter_part_comment_id = #{commentId} and user_id = #{userId}
+    </delete>
+
+    <select id="select_book_chapter_part_comment_praise_count_by_comment_id" resultType="Integer">
+      select count(*)
+      from book_chapter_part_comment_praise
+      where book_chapter_part_comment_id = #{commentId}
+    </select>
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhyx.halfroom.dao.UserManualDao">
+    <select id="select_user_manual_by_user_id" resultType="com.jhyx.halfroom.bean.UserManual">
+        select *
+        from activity_user_manual
+        <if test="userId != null">
+            where user_id = #{userId}
+        </if>
+    </select>
+
+    <insert id="batch_insert_into_user_manual">
+        <foreach collection="list" item="li" separator=";">
+            insert into activity_user_manual(user_id,manual_id)
+            values(#{li.userId}, #{li.manualId})
+        </foreach>
+    </insert>
+
+    <select id="select_user_manual_and_manual_by_user_id" resultType="com.jhyx.halfroom.bean.Manual">
+        select activity_manual.id,
+               activity_manual.name,
+               activity_manual.face_thumb_url,
+               activity_manual.page,
+               activity_manual.speaker,
+               activity_manual.type,
+               activity_manual.url,
+               activity_manual.create_time,
+               activity_manual.update_time
+        from activity_user_manual,
+             activity_manual
+        where user_id = #{userId}
+          and activity_manual.id = activity_user_manual.manual_id
+    </select>
+</mapper>

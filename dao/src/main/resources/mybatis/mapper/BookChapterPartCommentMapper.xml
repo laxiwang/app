@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhyx.halfroom.dao.BookChapterPartCommentDao">
+    <insert id="insert_into_book_chapter_part_comment" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into book_chapter_part_comment(book_id, chapter_id, part_id, content, user_id, at_comment_id, type, time_sum)
+        values (#{bookId}, #{chapterId}, #{partId}, #{content}, #{userId}, #{atCommentId}, #{type}, #{timeSum})
+    </insert>
+
+    <select id="select_book_chapter_part_comment_by_praise" resultType="com.jhyx.halfroom.bean.BookChapterPartComment">
+        select `comment`.id, `comment`.book_id bookId,`comment`.chapter_id chapterId,`comment`.part_id partId,
+        `comment`.content,`comment`.user_id userId,`comment`.at_comment_id atCommentId,
+        `comment`.create_time createTime,`comment`.update_time updateTime, `comment`.time_sum timeSum, `comment`.type
+        from book_chapter_part_comment `comment`, book_chapter_part_comment_praise `praise`
+        <where>
+            `comment`.book_id = #{bookId}
+            <if test="chapterId != null">
+                and `comment`.chapter_id = #{chapterId}
+            </if>
+            <if test="partId != null">
+                and `comment`.part_id = #{partId}
+            </if>
+            and `comment`.id = `praise`.book_chapter_part_comment_id
+        </where>
+        group by `comment`.id, `comment`.book_id,`comment`.chapter_id,`comment`.part_id,
+        `comment`.content,`comment`.user_id,`comment`.at_comment_id, `comment`.type,
+        `comment`.create_time,`comment`.update_time, `comment`.time_sum
+        order by count(*) desc, updateTime desc
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="select_book_chapter_part_comment_by_book_id_and_chapter_id_and_part_id_and_no_praise"
+            resultType="com.jhyx.halfroom.bean.BookChapterPartComment">
+        select *
+        from book_chapter_part_comment `comment`
+        <where>
+            `comment`.book_id = #{bookId} and at_comment_id is null
+            <if test="chapterId != null">
+                and `comment`.chapter_id = #{chapterId}
+            </if>
+            <if test="partId != null">
+                and `comment`.part_id = #{partId}
+            </if>
+            and `comment`.id not in (select `praise`.book_chapter_part_comment_id from book_chapter_part_comment_praise `praise`)
+        </where>
+        order by `comment`.update_time desc
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="select_book_chapter_part_comment_count_by_book_id_and_chapter_id_and_part_id" resultType="Long">
+        select count(*)
+        from book_chapter_part_comment
+        where book_id = #{bookId}
+          and chapter_id = #{chapterId}
+          and part_id = #{partId}
+    </select>
+
+    <select id="select_book_chapter_part_comment_by_book_id_and_is_hot_comment"
+            resultType="com.jhyx.halfroom.bean.BookChapterPartComment">
+        select *
+        from book_chapter_part_comment
+        where book_id = #{bookId}
+        and is_hot_comment = #{isHotComment}
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="select_book_chapter_part_comment_by_at_comment_ids" resultType="com.jhyx.halfroom.bean.BookChapterPartComment">
+      select *
+      from  book_chapter_part_comment
+      where at_comment_id in
+      <foreach collection="ids" item="id" separator="," close=")" open="(">
+          #{id}
+      </foreach>
+    </select>
+</mapper>

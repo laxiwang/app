@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhyx.halfroom.dao.ShareInfoDao">
+    <select id="shareInfoDao_select_share_info_by_type_and_book_id_and_is_sale_ambassador_and_is_experience" resultType="com.jhyx.halfroom.bean.ShareInfo">
+        select *
+        from share_info
+        <where>
+            <if test="shareInfo != null">
+                type = #{shareInfo.index}
+            </if>
+            <if test="bookId != null">
+                and book_id = #{bookId}
+            </if>
+            <if test="isSaleAmbassador != null">
+                and is_sale_ambassador = #{isSaleAmbassador}
+            </if>
+            <if test="isExperience != null">
+                and is_experience = #{isExperience}
+            </if>
+        </where>
+        limit 1
+    </select>
+</mapper>

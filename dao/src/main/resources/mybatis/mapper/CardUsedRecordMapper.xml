@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhyx.halfroom.dao.CardUsedRecordDao">
+    <select id="select_card_used_record_by_user_id_and_card_type" resultType="com.jhyx.halfroom.bean.CardUsedRecord">
+        select *
+        from card_used_record
+        where user_id = #{userId} and card_type = #{cardType}
+    </select>
+
+    <insert id="insert_into_card_used_record">
+        insert into card_used_record(card_no, card_type, user_id) values(#{cardNo}, #{cardType}, #{userId})
+    </insert>
+</mapper>

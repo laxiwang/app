@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhyx.halfroom.dao.BookChapterPartContentDao">
+    <select id="select_book_chapter_part_content_by_part_id" resultType="com.jhyx.halfroom.bean.BookChapterPartContent">
+        select *
+        from book_chapter_part_content
+        where book_chapter_part_id = #{partId}
+    </select>
+
+    <select id="select_book_chapter_part_content_by_book_id_and_chapter_id_and_part_id" resultType="com.jhyx.halfroom.bean.BookChapterPartContent">
+        select *
+        from book_chapter_part_content
+        where book_id = #{bookId} and book_chapter_id = #{bookChapterId} and book_chapter_part_id = #{bookChapterPartId}
+    </select>
+</mapper>

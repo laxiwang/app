@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhyx.halfroom.dao.UserBranchSaleChangeDao">
+    <insert id="insert_into_user_branchsaler_change">
+        insert into user_branchsaler_change(user_id,
+                                            old_branchsaler_id,
+                                            new_branchsaler_id,
+                                            type)
+        values (#{userId}, #{oldBranchsalerId}, #{newBranchsalerId}, #{type})
+    </insert>
+</mapper>

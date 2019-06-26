@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhyx.halfroom.dao.IntegrationDao">
+    <select id="select_integral_origin_by_user_id" resultType="com.jhyx.halfroom.bean.IntegralOrigin">
+        select *
+        from integral_origin
+        where user_id = #{userId}
+    </select>
+
+    <select id="select_integral_exchange_record_by_book_id" resultType="Integer">
+        select count(*)
+        from integral_exchange_record
+        where book_id = #{bookId}
+    </select>
+
+    <select id="select_integral_exchange_rule" resultType="com.jhyx.halfroom.bean.IntegralExchangeRule">
+        select *
+        from integral_exchange_rule
+        where `status` = 0
+    </select>
+
+    <select id="select_integral_exchange_record_by_user_id" resultType="com.jhyx.halfroom.bean.IntegralExchangeRecord">
+        select *
+        from integral_exchange_record
+        where user_id = #{userId}
+    </select>
+
+    <select id="select_integral_exchange_rule_by_book_id" resultType="com.jhyx.halfroom.bean.IntegralExchangeRule">
+        select *
+        from integral_exchange_rule
+        where book_id = #{bookId}
+          and `status` = 0
+    </select>
+
+    <insert id="insert_into_integral_exchange_record">
+        insert into integral_exchange_record(user_id, book_id, integral)
+        values (#{userId}, #{bookId}, #{integral})
+    </insert>
+
+    <insert id="insert_into_integral_origin">
+        insert into integral_origin(user_id, in_user_id, integral, type)
+        values (#{userId}, #{inUserId}, #{integral}, #{type})
+    </insert>
+</mapper>

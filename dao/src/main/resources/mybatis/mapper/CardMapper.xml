@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhyx.halfroom.dao.CardDao">
+    <select id="select_card_by_card_no" resultType="com.jhyx.halfroom.bean.Card">
+        select *
+        from card
+        where card_no = #{cardNo}
+    </select>
+
+    <select id="select_card_by_card_no_and_card_code_and_type" resultType="com.jhyx.halfroom.bean.Card">
+        select *
+        from card
+        where card_no = #{cardNo} and card_code = #{cardCode} and `type` = #{type}
+    </select>
+
+    <update id="update_card">
+        update card
+        <set>
+            <if test="cardCode != null and cardCode != '' ">
+                card_code = #{cardCode},
+            </if>
+            <if test="fee != null">
+                fee = #{fee},
+            </if>
+            <if test="branchsalerId != null">
+                branchsaler_id = #{branchsalerId},
+            </if>
+            <if test="updatetime != null and updatetime != '' ">
+                updatetime = #{updatetime},
+            </if>
+            <if test="status != null">
+                `status` = #{status}
+            </if>
+        </set>
+        where card_no = #{cardNo}
+    </update>
+</mapper>

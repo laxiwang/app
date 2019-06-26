@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhyx.halfroom.dao.UserOrderDao">
+    <insert id="insert_into_user_order" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into user_order(orderno, userid, bookid, fee, state, paysource, createtime, updatetime, payrole,
+                               introducerid, branchsaler_id)
+        values (#{orderno}, #{userid}, #{bookid}, #{fee}, #{state}, #{paysource}, #{createtime}, #{updatetime},
+                #{payrole}, #{introducerid}, #{branchsalerId})
+    </insert>
+
+    <select id="select_user_order_by_order_no" resultType="com.jhyx.halfroom.bean.UserOrder">
+        select *
+        from user_order
+        where orderno = #{orderNo}
+    </select>
+
+    <update id="update_user_order">
+        update user_order
+        <set>
+            <if test="orderno != null and orderno != '' ">
+                orderno = #{orderno},
+            </if>
+            <if test="userid != null">
+                userid = #{userid},
+            </if>
+            <if test="bookid != null">
+                bookid = #{bookid},
+            </if>
+            <if test="fee != null">
+                fee = #{fee},
+            </if>
+            <if test="state != null">
+                state = #{state},
+            </if>
+            <if test="paysource != null">
+                paysource = #{paysource},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="updatetime != null and updatetime != '' ">
+                updatetime = #{updatetime},
+            </if>
+            <if test="payrole != null">
+                payrole = #{payrole},
+            </if>
+            <if test="introducerid != null">
+                introducerid = #{introducerid},
+            </if>
+            <if test="branchsalerId != null">
+                branchsaler_id = #{branchsalerId}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>
